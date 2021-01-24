@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import VideoCard from "./VideoCard";
+import { useState, useEffect } from "react";
+import db from "./firebase";
 
 function App() {
+  const [reels, setReels] = useState([]);
+  useEffect(() => {
+    db.collection("insta-clone").onSnapshot((snapshot) =>
+      setReels(snapshot.docs.map((doc) => doc.data()))
+    );
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="app__top">
+        {/* image at top */}
+        <img className="app__icon" src="/images/mingle.png" alt="me" />
+        <h1> 중스타그램 </h1>
+      </div>
+      {/* Container of app__videos  */}
+      <div className="app__videos">
+        {reels.map(({ channel, avatarSrc, song, url, likes, shares }) => (
+          <VideoCard
+            channel={channel}
+            avatarSrc={avatarSrc}
+            song={song}
+            url={url}
+            likes={likes}
+            shares={shares}
+          />
+        ))}
+      </div>
     </div>
   );
 }
