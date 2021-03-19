@@ -1,4 +1,4 @@
-# React study.
+# React - Javascript - html - Css study.
 insta layout copy
 firebase deploy
 
